@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Warehouse Inventory Dashboard</title>
+  <!-- Our styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="page-header">
+    <div class="header-inner">
+      <h1>Warehouse Inventory Dashboard</h1>
+      <p>Find an industrial spare part, see how many are left and spot what needs to be reordered.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Summary cards (filled in by charts.js) -->
+    <section class="summary" id="summary" aria-label="Summary numbers"></section>
+
+    <!-- Search box and table -->
+    <section class="panel">
+      <h2>Item list</h2>
+      <p class="lead">Type in the box to filter the table. Rows in yellow have less stock than their minimum level.</p>
+      <input id="searchBox" type="search"
+             placeholder="Search by name, category, supplier or location"
+             aria-label="Search items">
+      <p id="resultCount" class="note"></p>
+      <div class="table-wrap">
+        <table id="dataTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section>
+      <h2 class="section-title">Charts</h2>
+      <div class="chart-grid">
+
+        <article class="panel chart-card">
+          <h3>Item types per category</h3>
+          <p class="lead">Each bar counts how many different items a category contains. It shows how the catalogue is spread across categories.</p>
+          <div class="chart-box"><canvas id="categoryChart"></canvas></div>
+          <p class="insight" id="insight1"></p>
+        </article>
+
+        <article class="panel chart-card">
+          <h3>Units in stock per category</h3>
+          <p class="lead">Each bar adds up the stock of every item in the category. It shows where most of the physical inventory is stored.</p>
+          <div class="chart-box"><canvas id="stockChart"></canvas></div>
+          <p class="insight" id="insight2"></p>
+        </article>
+
+        <article class="panel chart-card wide">
+          <h3>Low-stock items per category</h3>
+          <p class="lead">An item is low on stock when its stock is below its minimum level. The taller the bar, the more items in that category need a new purchase order soon.</p>
+          <div class="chart-box"><canvas id="lowChart"></canvas></div>
+          <p class="insight" id="insight3"></p>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Data source: simulated dataset for a university IT course. Part names follow common
+    industrial standards; supplier names, stock levels and shelf locations are randomly generated.
+  </footer>
+
+  <!-- Chart.js library (loaded from a CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Our scripts: the order matters (data first, then table, then charts) -->
+  <script src="data.js"></script>
+  <script src="table.js"></script>
+  <script src="charts.js"></script>
+</body>
+</html>
