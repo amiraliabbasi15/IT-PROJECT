@@ -1,0 +1,136 @@
+/* style.css - colors and layout for the whole page */
+
+/* Colors are stored in variables so we can reuse them (and change them in dark mode) */
+:root {
+  --bg: #e8edf1;          /* page background */
+  --panel: #ffffff;       /* white boxes */
+  --ink: #1b2630;         /* main text */
+  --muted: #5b6a76;       /* secondary text */
+  --line: #d3dbe1;        /* thin borders */
+  --head: #eef2f5;        /* table header and insight boxes */
+  --hover: #f4f7f9;       /* row under the mouse */
+  --accent: #2f6f9f;      /* main blue */
+  --warn-bg: #fff3c4;     /* low stock row */
+  --warn-ink: #8a1c14;    /* low stock number */
+  --badge-bg: #fbd9d5;    /* "Low" badge */
+  --shadow: 0 1px 3px rgba(20, 40, 60, 0.10);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* ---------- Top banner ---------- */
+.page-header {
+  background: linear-gradient(135deg, #17384f 0%, #2f6f9f 100%);
+  color: #ffffff;
+  border-bottom: 6px solid #f2b705;   /* safety-yellow stripe like a warehouse floor line */
+}
+.header-inner { max-width: 1000px; margin: 0 auto; padding: 32px 20px 28px; }
+.page-header h1 { margin: 0 0 6px; font-size: 2rem; }
+.page-header p  { margin: 0; max-width: 62ch; opacity: 0.92; }
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+}
+
+/* ---------- Summary cards ---------- */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--accent);   /* the color of each card is set in charts.js */
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.stat-value { font-size: 1.9rem; font-weight: 700; line-height: 1.1; }
+.stat-label { color: var(--muted); font-size: 0.88rem; margin-top: 4px; }
+
+/* ---------- Boxes ---------- */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+.panel h2, .panel h3 { margin: 0 0 6px; }
+.panel h2 { font-size: 1.3rem; }
+.panel h3 { font-size: 1.1rem; }
+.section-title { margin: 8px 0 14px; font-size: 1.3rem; }
+.lead { margin: 0 0 14px; color: var(--muted); font-size: 0.93rem; max-width: 70ch; }
+
+/* ---------- Search box ---------- */
+#searchBox {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  background: var(--panel);
+  color: var(--ink);
+  border: 2px solid var(--line);
+  border-radius: 6px;
+}
+#searchBox:focus { outline: none; border-color: var(--accent); }
+.note { margin: 10px 0; color: var(--muted); font-size: 0.9rem; }
+
+/* ---------- Table ---------- */
+/* The table scrolls inside its box so the page itself never breaks on small screens */
+.table-wrap { overflow: auto; max-height: 460px; border: 1px solid var(--line); border-radius: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { position: sticky; top: 0; background: var(--head); font-weight: 600; }   /* header stays visible */
+tbody tr:hover { background: var(--hover); }
+
+/* Small colored dot in front of the category name */
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+
+/* Rows where stock is below the minimum */
+tr.low-stock { background: var(--warn-bg); }
+tr.low-stock td.stock-cell { color: var(--warn-ink); font-weight: 700; }
+.badge {
+  display: inline-block; margin-left: 8px; padding: 1px 8px;
+  background: var(--badge-bg); color: var(--warn-ink);
+  border-radius: 10px; font-size: 0.75rem; font-weight: 700;
+}
+
+/* ---------- Charts ---------- */
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.chart-card.wide { grid-column: 1 / -1; }          /* the third chart uses the full width */
+.chart-box { position: relative; height: 300px; }   /* fixed height so charts do not grow forever */
+.insight {
+  margin: 14px 0 0; padding: 10px 12px;
+  background: var(--head); border-left: 4px solid var(--accent);
+  border-radius: 4px; font-size: 0.92rem;
+}
+
+footer { max-width: 1000px; margin: 0 auto; padding: 0 20px 32px; color: var(--muted); font-size: 0.85rem; }
+
+@media (max-width: 600px) {
+  .page-header h1 { font-size: 1.5rem; }
+  .panel { padding: 14px; }
+  .chart-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Phone support: keep content clear of the system bars ---------- */
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light dark; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+/* ---------- Dark mode (follows the phone or computer setting) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11171c; --panel: #1b242b; --ink: #e6ebef; --muted: #9aa8b3; --line: #33424d;
+    --head: #222d35; --hover: #222d35; --accent: #5b9bc4;
+    --warn-bg: #4a3d0a; --warn-ink: #ffb4a8; --badge-bg: #5a2a25;
+  }
+}
